@@ -1,0 +1,47 @@
+{
+"name": "Hello World PWA",
+"short_name": "HelloPWA",
+"start_url": "/index.html",
+"display": "standalone",
+"background_color": "#764ba2",
+"theme_color": "#667eea",
+"icons": [
+{
+"src": "[https://via.placeholder.com/192](https://via.placeholder.com/192)",
+"sizes": "192x192",
+"type": "image/png"
+},
+{
+"src": "[https://via.placeholder.com/512](https://via.placeholder.com/512)",
+"sizes": "512x512",
+"type": "image/png"
+}
+]
+}
+
+Step 2: Create the Service Worker
+Create a file named sw.js. This script runs in the background to cache assets so the app
+works offline.
+
+sw.js
+const CACHE_NAME = 'hello-pwa-v1';
+const ASSETS = [
+'/',
+'/index.html',
+
+'[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)'
+];
+// Install event: Cache essential files
+self.addEventListener('install', (event) => {
+event.waitUntil(
+caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
+);
+});
+// Fetch event: Serve from cache if offline
+self.addEventListener('fetch', (event) => {
+event.respondWith(
+caches.match(event.request).then((response) => {
+return response || fetch(event.request);
+})
+);
+});
