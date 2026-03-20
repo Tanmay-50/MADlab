@@ -1,78 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#667eea">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hello World PWA</title>
-<!-- PWA Meta Tags -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#667eea">
-<link rel="apple-touch-icon" href="https://via.placeholder.com/192">
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-  <script>
-if ('serviceWorker' in navigator) {
-window.addEventListener('load', () => {
-navigator.serviceWorker.register('/sw.js')
-.then(reg => console.log('Service Worker registered!'))
-.catch(err => console.log('Registration failed:', err));
-});
-}
-</script>
-body {
-background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-min-height: 100vh;
-display: flex;
-align-items: center;
-justify-content: center;
-margin: 0;
-font-family: 'Inter', system-ui, -apple-system, sans-serif;
-}
-.glass-card {
-background: rgba(255, 255, 255, 0.95);
-backdrop-filter: blur(10px);
-border-radius: 24px;
-box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello World PWA</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#667eea">
+  <link rel="apple-touch-icon" href="icon.png">
+  <style>
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      font-family: system-ui, -apple-system, sans-serif;
+      padding: 1rem;
+    }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      padding: 2rem;
+      text-align: center;
+    }
+    .icon-wrap {
+      display: inline-flex;
+      height: 4rem;
+      width: 4rem;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #e0e7ff;
+      color: #4f46e5;
+      margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #111;
+      margin-bottom: 0.5rem;
+    }
+    p {
+      color: #4b5563;
+      margin-bottom: 2rem;
+    }
+    button {
+      width: 100%;
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 1rem;
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button:hover { background: #4338ca; }
+    #status-msg {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      border-radius: 8px;
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 0.875rem;
+    }
+  </style>
 </head>
-<body class="p-4">
-<div class="glass-card w-full max-w-md p-8 text-center">
+<body>
+  <div class="glass-card">
+    <div class="icon-wrap">
+      <svg xmlns="http://www.w3.org/2000/svg" style="height:2rem;width:2rem;" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+      </svg>
+    </div>
+    <h1>PWA Ready!</h1>
+    <p>This site can now be installed on your home screen and work offline.</p>
+    <button onclick="toggleMessage()">Check Status</button>
+    <div id="status-msg">Service Worker is active!</div>
+  </div>
 
-<div class="mb-6 inline-flex h-16 w-16 items-center justify-center rounded-full bg-indigo-100 text-indigo-
-600">
+  <script>
+    function toggleMessage() {
+      const msg = document.getElementById('status-msg');
+      msg.style.display = msg.style.display === 'block' ? 'none' : 'block';
+    }
 
-<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24"
-stroke="currentColor">
-<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0
-002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
-</svg>
-</div>
-
-<h1 class="mb-2 text-4xl font-extrabold tracking-tight text-gray-900">PWA Ready!</h1>
-<p class="mb-8 text-lg text-gray-600">This site can now be installed on your home screen and work
-offline.</p>
-<button onclick="toggleMessage()" class="w-full rounded-xl bg-indigo-600 px-6 py-4 text-sm font-semibold
-text-white shadow-lg hover:bg-indigo-700 transition-all">
-Check Status
-</button>
-<div id="status-msg" class="hidden mt-4 p-3 rounded-lg bg-blue-50 text-blue-700 text-sm">
-Service Worker is active!
-</div>
-</div>
-<script>
-function toggleMessage() {
-const msg = document.getElementById('status-msg');
-msg.classList.toggle('hidden');
-}
-// Register Service Worker
-if ('serviceWorker' in navigator) {
-window.addEventListener('load', () => {
-navigator.serviceWorker.register('sw.js').catch(console.error);
-});
-}
-</script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => console.log('Service Worker registered!'))
+          .catch(err => console.log('Registration failed:', err));
+      });
+    }
+  </script>
 </body>
 </html>
