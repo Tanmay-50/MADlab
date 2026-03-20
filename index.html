@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#667eea">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hello World PWA</title>
@@ -10,6 +12,15 @@
 <link rel="apple-touch-icon" href="https://via.placeholder.com/192">
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
+  <script>
+if ('serviceWorker' in navigator) {
+window.addEventListener('load', () => {
+navigator.serviceWorker.register('/sw.js')
+.then(reg => console.log('Service Worker registered!'))
+.catch(err => console.log('Registration failed:', err));
+});
+}
+</script>
 body {
 background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 min-height: 100vh;
